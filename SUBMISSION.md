@@ -24,7 +24,7 @@ The repository contains the complete application source code and project documen
 
 **Video:**
 
-🔴 REPLACE THIS WITH YOUR LOOM OR YOUTUBE LINK
+https://drive.google.com/file/d/1MBBqmiWlpSxLBQg2v3uuVvYQc7McYqup/view?usp=drive_link
 
 The walkthrough demonstrates the main user flow, core functionality, implementation decisions, scope tradeoffs, and AI-assisted development workflow.
 
