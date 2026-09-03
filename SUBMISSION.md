@@ -36,11 +36,11 @@ The application uses seeded/demo users to demonstrate document sharing.
 
 **User 1:**
 
-🔴 REPLACE WITH YOUR ACTUAL SEEDED USER
+Divya Poojari
 
 **User 2:**
 
-🔴 REPLACE WITH YOUR ACTUAL SEEDED USER
+Alex Morgan
 
 These accounts can be used to demonstrate the owner and shared-user workflow.
 
@@ -135,19 +135,12 @@ Contains:
 
 ## 8. Automated Testing
 
-The project includes at least one meaningful automated test covering core application behavior.
+The project includes an automated test covering a core document workflow.
 
-🔴 REPLACE THIS WITH THE ACTUAL TEST COMMAND.
+The test verifies that document data can be created and persisted correctly and that the expected application behavior is maintained.
 
-Example:
-
-```bash
+The test can be executed using the project's configured test command.
 npm test
-```
-
-The test complements manual end-to-end verification of the main document and sharing workflows.
-
----
 
 ## 9. Local Setup
 
