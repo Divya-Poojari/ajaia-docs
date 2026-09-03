@@ -1,132 +1,275 @@
-# Architecture Note
+# Ajaia Docs — Architecture Note
 
-## Product slice
+## 1. Overview
 
-The implementation focuses on the complete document lifecycle:
+Ajaia Docs is a lightweight full-stack document management application built to demonstrate the core workflow of creating, editing, importing, persisting, and sharing documents.
 
-**Create → edit → persist → reopen → import → share → collaborate through shared access**
+The implementation intentionally focuses on a small, coherent product slice rather than attempting to replicate the complete functionality of Google Docs.
 
-The goal was not to clone Google Docs. The highest-value product behavior in the assignment is the ability to create useful documents and move them between users with clear access semantics.
+---
 
-## Architecture
+## 2. Technology Stack
 
-```text
-┌──────────────────────────────────────┐
-│             Next.js UI               │
-│ Dashboard + TipTap Document Editor   │
-└──────────────────┬───────────────────┘
-                   │
-                   ▼
-┌──────────────────────────────────────┐
-│       Next.js Route Handlers          │
-│ documents / import / sharing / auth   │
-└──────────────────┬───────────────────┘
-                   │
-                   ▼
-┌──────────────────────────────────────┐
-│             MongoDB                  │
-│ users / documents / shares           │
-└──────────────────────────────────────┘
-```
+### Frontend
 
-## Document representation
+* Next.js
+* React
+* TypeScript
+* Rich-text document editing
+* Responsive browser-based UI
 
-Document content is persisted as TipTap/ProseMirror JSON instead of storing only rendered HTML.
+### Backend
 
-Benefits:
+* Next.js server-side functionality
+* Server-side document and sharing operations
+* TypeScript
 
-- Formatting structure survives refresh.
-- The editor can render the same document model directly.
-- The representation can evolve toward comments, history, and collaboration later.
-- Server-side data is not coupled to a particular visual HTML representation.
+### Database
 
-## Data model
+* MongoDB
 
-### users
+MongoDB is used to persist document data and document-sharing relationships.
+
+### Deployment
+
+* Vercel
+
+The production application is deployed through Vercel and connected to the GitHub repository.
+
+---
+
+## 3. High-Level Architecture
 
 ```text
-_id
-name
-email
-createdAt
+┌──────────────────────────────┐
+│        Browser / User        │
+└──────────────┬───────────────┘
+               │
+               ▼
+┌──────────────────────────────┐
+│       Next.js / React UI     │
+│                              │
+│  • Document Dashboard        │
+│  • Document Editor           │
+│  • File Import               │
+│  • Sharing Interface         │
+└──────────────┬───────────────┘
+               │
+               ▼
+┌──────────────────────────────┐
+│   Server-side Application    │
+│                              │
+│  • Document operations       │
+│  • Persistence               │
+│  • Sharing/access logic      │
+│  • File import processing    │
+└──────────────┬───────────────┘
+               │
+               ▼
+┌──────────────────────────────┐
+│           MongoDB            │
+│                              │
+│  • Documents                 │
+│  • Ownership                 │
+│  • Sharing information       │
+└──────────────────────────────┘
 ```
 
-### documents
+---
+
+## 4. Document Lifecycle
+
+The primary document flow is:
 
 ```text
-_id
-title
-content
-ownerId
-sourceFileName (optional)
-createdAt
-updatedAt
+Create
+  ↓
+Edit
+  ↓
+Save
+  ↓
+Persist in MongoDB
+  ↓
+Reopen / Refresh
+  ↓
+Continue Editing
 ```
 
-### shares
+Documents have an owner and can be shared with another seeded user.
+
+The dashboard provides separate views for:
+
+* **My documents** — documents owned by the current user
+* **Shared with me** — documents that another user has shared with the current user
+
+This makes ownership and shared access visible without introducing unnecessary permission complexity.
+
+---
+
+## 5. Rich-Text Editing
+
+The editor provides the core formatting required for the assignment, including:
+
+* Bold
+* Italic
+* Underline
+* Headings / text size variation
+* Bulleted lists
+* Numbered lists
+
+The goal was to provide a coherent and usable editing experience rather than reproduce every feature available in a full document editor.
+
+Document structure and formatting are persisted so that the document remains usable after refreshing or reopening it.
+
+---
+
+## 6. File Import
+
+The application supports importing:
+
+* `.txt`
+* `.md`
+
+The supported maximum file size is **2 MB**.
+
+Imported content is converted into an editable document so that file import is directly connected to the primary document workflow rather than being implemented as an unrelated upload feature.
+
+Unsupported files and invalid inputs are handled through application-level validation.
+
+---
+
+## 7. Sharing Model
+
+The sharing model is intentionally lightweight.
+
+Each document has:
 
 ```text
-_id
-documentId
-userId
-permission: viewer | editor
-createdAt
-updatedAt
+Owner
+  │
+  └── Document
+        │
+        └── Shared users
 ```
 
-## Access control
+A document owner can grant another seeded user access to the document.
 
-The API resolves access using:
+The recipient can then find the document in **Shared with me**.
 
-1. Is the current user the document owner?
-2. If not, does a share record exist for the current user?
-3. If neither is true, return `403`.
-4. If the share is `viewer`, writes are rejected.
-5. Only the owner can manage sharing and delete a document.
+This demonstrates the core access-control intent required by the assignment while avoiding unnecessary enterprise-level permission management.
 
-This keeps authorization on the server rather than relying on UI visibility.
+---
 
-## File handling
+## 8. Persistence
 
-The assignment requires file handling but does not require a general file-storage system.
+MongoDB provides persistent storage for:
 
-I chose `.txt` and `.md` import because they can be safely and quickly transformed into editable document content without adding a binary-storage dependency.
+* Document metadata
+* Document content
+* Ownership information
+* Sharing information
 
-Constraints are surfaced in the UI:
+This allows documents and sharing relationships to remain available after page refreshes and subsequent sessions.
 
-- `.txt` / `.md`
-- 2 MB maximum
+Environment-specific configuration, including the MongoDB connection string, is provided through environment variables rather than being committed to source control.
 
-## Persistence
+---
 
-MongoDB Atlas is used because the document structure is naturally represented as JSON and the setup is practical for a small deployed application.
+## 9. File and Application Boundaries
 
-## Scope decisions
+The application is organized so that responsibilities are separated between:
 
-Intentionally not implemented:
+* UI components
+* Document/editor functionality
+* Server-side operations
+* Database access
+* Seed/demo data
 
-- Real-time CRDT/OT collaboration
-- Comments
-- Version history
-- OAuth/password authentication
-- `.docx` parsing
-- PDF export
+This keeps database access and server-side logic separate from presentation concerns and makes the application easier to extend.
 
-These were deprioritized to protect the core end-to-end workflow within the 4–6 hour constraint.
+---
 
-## Reliability considerations
+## 10. Validation and Error Handling
 
-Implemented:
+Basic validation is applied to important user operations, including:
 
-- Request validation
-- Invalid document ID handling
-- Unsupported file-type rejection
-- File-size validation
-- Server-side authorization
-- Read-only behavior for viewer shares
-- Save status feedback
-- Automated access-control tests
+* Document creation
+* Document updates
+* File imports
+* File type and size validation
+* Sharing operations
+* Document access
 
-## Future architecture
+The goal was to prevent invalid operations from causing application failures and to provide useful feedback to the user.
 
-A production version would separate authentication/session management, introduce object storage for binary files, add real-time collaboration using WebSockets/CRDTs, and add an audit/versioning layer.
+---
+
+## 11. Testing Strategy
+
+The project includes automated testing for a meaningful application workflow.
+
+In addition to automated testing, the application was manually verified through end-to-end flows covering:
+
+* Document creation
+* Editing and formatting
+* Renaming
+* Persistence after refresh
+* File import
+* Document sharing
+* Shared document access
+* Production deployment
+
+---
+
+## 12. Deployment
+
+The production application is deployed on Vercel.
+
+The deployment is connected to the GitHub repository, allowing changes pushed to the main branch to trigger a new deployment.
+
+**Production URL:**
+
+https://ajaia-docs-seven-teal.vercel.app/
+
+---
+
+## 13. Design Priorities and Tradeoffs
+
+The main engineering priority was to deliver a complete core workflow rather than maximize the number of features.
+
+The implementation prioritizes:
+
+1. Usable document editing
+2. Reliable persistence
+3. File import
+4. Clear ownership and sharing behavior
+5. Simple deployment
+6. Maintainable application structure
+7. Basic automated verification
+
+The following were intentionally deprioritized:
+
+* Real-time collaborative editing
+* Comments
+* Version history
+* Advanced role-based permissions
+* Enterprise authentication
+* Full Google Docs feature parity
+
+These features can be added later without changing the fundamental product direction.
+
+---
+
+## 14. Future Architecture Improvements
+
+If the product were extended beyond the assignment scope, the architecture could evolve to support:
+
+* Real-time collaboration using WebSockets or a real-time database
+* Document version history
+* More granular access roles
+* Production-grade authentication
+* Background file processing for larger uploads
+* Additional automated integration and end-to-end tests
+* Document export and import in additional formats
+
+The current architecture intentionally keeps these concerns out of the critical path so that the core product remains simple and reliable.
