@@ -210,8 +210,6 @@ npm start
 
 The project includes an automated test covering a meaningful part of the application workflow.
 
-🔴 REPLACE THIS SECTION WITH YOUR ACTUAL TEST NAME / COMMAND.
-
 Example:
 
 ```bash
