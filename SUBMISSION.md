@@ -1,67 +1,270 @@
-# Ajaia Docs — Submission
+# Ajaia Docs — Assignment Submission
 
-## Included
+## 1. Live Product
 
-1. `README.md` — local setup, feature list, test instructions, limitations, and deployment guidance.
-2. `ARCHITECTURE.md` — architecture, data model, access control, file handling, and scope decisions.
-3. `AI_WORKFLOW.md` — AI tooling, use cases, verification, and judgment.
-4. `VIDEO_URL.txt` — walkthrough video destination placeholder.
-5. Full Next.js/TypeScript source code.
-6. Automated tests under `tests/`.
+**Production URL:**
 
-## Live deployment
+https://ajaia-docs-seven-teal.vercel.app/
 
-`ADD_LIVE_DEPLOYMENT_URL_HERE`
+The application is deployed on Vercel and is available for evaluation.
 
-## Demo users
+---
 
-- Divya Poojari — `divya@example.com`
-- Alex Morgan — `alex@example.com`
+## 2. Source Code
 
-Authentication is intentionally simulated using a seeded-user switcher. No password or credential is required.
+**GitHub Repository:**
 
-## Reviewer flow
+https://github.com/Divya-Poojari/ajaia-docs
 
-1. Open the live deployment.
-2. Verify the default user is Divya Poojari.
-3. Create a new document.
-4. Rename it.
-5. Use bold, italic, underline, headings, and lists.
-6. Refresh/reopen and verify persistence.
-7. Import a `.txt` or `.md` file.
-8. Share a document with Alex as `Can edit`.
-9. Switch to Alex.
-10. Open the document under `Shared with me`.
-11. Edit and save.
-12. Switch back to Divya and verify the saved content.
+The repository contains the complete application source code and project documentation.
 
-## Working
+---
 
-- Document creation
-- Rename
-- Rich-text editing
-- Persistence
-- File import
-- Sharing
-- Viewer/editor permission
-- Owned/shared distinction
-- Server-side access control
-- Validation/error handling
-- Automated authorization tests
+## 3. Walkthrough Video
 
-## Intentionally incomplete / out of scope
+**Video:**
 
-- Production authentication
-- Real-time simultaneous editing
-- Comments
-- Version history
-- PDF export
-- `.docx` import
+🔴 REPLACE THIS WITH YOUR LOOM OR YOUTUBE LINK
 
-## What I would build next with another 2–4 hours
+The walkthrough demonstrates the main user flow, core functionality, implementation decisions, scope tradeoffs, and AI-assisted development workflow.
 
-1. Secure authentication/session management.
-2. Real-time collaboration/presence.
-3. Version history.
-4. Expanded test coverage.
-5. Improved Markdown conversion.
+---
+
+## 4. Demo / Seeded Users
+
+The application uses seeded/demo users to demonstrate document sharing.
+
+**User 1:**
+
+🔴 REPLACE WITH YOUR ACTUAL SEEDED USER
+
+**User 2:**
+
+🔴 REPLACE WITH YOUR ACTUAL SEEDED USER
+
+These accounts can be used to demonstrate the owner and shared-user workflow.
+
+---
+
+## 5. Core Functionality
+
+The following assignment requirements are implemented:
+
+* [x] Create a new document
+* [x] Rename a document
+* [x] Edit document content in the browser
+* [x] Save and reopen documents
+* [x] Bold formatting
+* [x] Italic formatting
+* [x] Underline formatting
+* [x] Headings / text size variation
+* [x] Bulleted lists
+* [x] Numbered lists
+* [x] File import
+* [x] `.txt` file support
+* [x] `.md` file support
+* [x] File size validation
+* [x] Document ownership
+* [x] Share document with another user
+* [x] Owned documents view
+* [x] Shared documents view
+* [x] Persistent document storage
+* [x] Persistent sharing information
+* [x] Basic validation and error handling
+* [x] Automated testing
+* [x] Production deployment
+
+---
+
+## 6. Supported File Import
+
+Supported file types:
+
+* `.txt`
+* `.md`
+
+Maximum supported file size:
+
+**2 MB**
+
+The supported file types and size limitation are also communicated in the application UI.
+
+---
+
+## 7. Documentation Included
+
+The project includes:
+
+### README.md
+
+Contains:
+
+* Project overview
+* Features
+* Technology stack
+* Local setup instructions
+* Environment variable information
+* Testing information
+* Deployment information
+* Scope and limitations
+
+### ARCHITECTURE.md
+
+Contains:
+
+* High-level architecture
+* Technology choices
+* Document lifecycle
+* Persistence model
+* Sharing model
+* Validation approach
+* Deployment architecture
+* Design tradeoffs
+
+### AI_WORKFLOW.md
+
+Contains:
+
+* AI tools and workflow
+* Areas where AI accelerated development
+* AI-generated suggestions that were reviewed or rejected
+* Verification approach
+* Engineering judgment and testing process
+
+---
+
+## 8. Automated Testing
+
+The project includes at least one meaningful automated test covering core application behavior.
+
+🔴 REPLACE THIS WITH THE ACTUAL TEST COMMAND.
+
+Example:
+
+```bash
+npm test
+```
+
+The test complements manual end-to-end verification of the main document and sharing workflows.
+
+---
+
+## 9. Local Setup
+
+The project can be run locally using the instructions provided in `README.md`.
+
+The basic workflow is:
+
+```bash
+git clone https://github.com/Divya-Poojari/ajaia-docs.git
+cd ajaia-docs
+npm install
+```
+
+Configure the required environment variables in `.env.local`, then run:
+
+```bash
+npm run dev
+```
+
+The application is available locally at:
+
+```text
+http://localhost:3000
+```
+
+---
+
+## 10. Environment Variables
+
+The application requires a MongoDB connection string.
+
+Example:
+
+```env
+MONGODB_URI=your_mongodb_connection_string
+```
+
+Actual credentials are intentionally not included in the repository.
+
+---
+
+## 11. Scope Decisions
+
+The project intentionally prioritizes the core document workflow over implementing every possible Google Docs feature.
+
+The main focus was:
+
+1. Document creation and editing
+2. Rich-text formatting
+3. File import
+4. Persistence
+5. Document sharing
+6. Clear owned/shared document views
+7. Deployment and verification
+
+Features intentionally deprioritized include:
+
+* Real-time collaboration
+* Comments
+* Version history
+* Advanced permissions
+* Enterprise authentication
+* Full Google Docs feature parity
+
+---
+
+## 12. What I Would Build Next
+
+With an additional 2–4 hours, I would prioritize one of the following based on product value:
+
+1. Real-time collaboration indicators
+2. Document version history
+3. More granular sharing permissions
+4. Additional automated integration/end-to-end tests
+5. Document export to PDF or Markdown
+
+The goal would be to extend the existing core workflow without compromising its reliability.
+
+---
+
+## 13. Final Verification
+
+The deployed application was manually verified for the main end-to-end workflows:
+
+* Document creation
+* Document editing
+* Rich-text formatting
+* Document renaming
+* Saving and reopening
+* Persistence after refresh
+* File import
+* Sharing
+* Shared document access
+* Production deployment
+
+The production build was also verified before submission.
+
+---
+
+## 14. Submission Contents
+
+This submission includes:
+
+* Complete source code
+* README.md
+* ARCHITECTURE.md
+* AI_WORKFLOW.md
+* SUBMISSION.md
+* Walkthrough video
+* Screenshots / demo assets
+
+---
+
+## 15. Contact
+
+**Divya Poojari**
+
+GitHub:
+
+https://github.com/Divya-Poojari/ajaia-docs
